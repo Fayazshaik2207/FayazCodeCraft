@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Student Profile Page</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<link rel="icon" type="image/png" href="Images/logo1.png">
+</head>
+
+<body>
+
+	<!-- header starts -->
+	<div th:replace="~{fragments/user-header :: u-header}"></div>
+	<!-- header ends -->
+
+	<!-- main content starts -->
+	<main class="container-fluid" style="min-height: 550px;">
+		<section class="container py-5 bg-light">
+			<h3 class="text-center mb-5">My Courses</h3>
+
+			<div th:if="${purchasedCourseList == null or purchasedCourseList.isEmpty()}" class="text-center">
+				<h3 class="text-danger">Sorry, you didn't purchase any course yet...!!!</h3>
+			</div>
+			<!-- ------------------courses div starts here------------- -->
+			<div class="row g-4">
+
+
+				<!-- ------------------courses card starts here------------- 
+				<div th:each="purchasedCourse : ${purchasedCourseList}" class="col-lg-3 col-md-6 ms-5">
+					<div class="card h-100" style="width: 18rem;">
+
+						<img th:src="@{${purchasedCourse.imageUrl}}" class="card-img-top" alt="...">
+						<div class="card-body">
+							<h5 class="card-title"><span th:text="${purchasedCourse.name}"></span></h5>
+							<p class="card-text"><span th:text="${purchasedCourse.description}"></span></p>
+							<button class="btn btn-outline-success">
+								Start Course
+							</button>
+						</div>
+						<div class="card-footer text-body-secondary">
+							Updated: <span th:text="${purchasedCourse.updatedOn}"></span>
+						</div>
+						<div class="card-footer text-body-secondary">
+								<small>Purchased on: <br><strong><span th:text="${purchasedCourse.purchasedOn}"></span></strong></small>
+						</div>
+					</div>
+				</div>
+				 ------------------courses card ends here------------- -->
+
+				<div th:each="purchasedCourse : ${purchasedCourseList}" class="col-lg-3 col-md-6">
+					<div class="card h-100" style="width: 16rem;">
+						<img th:src="@{${purchasedCourse.imageUrl}}" class="card-img-top" alt="...">
+
+						<div class="card-body d-flex flex-column">
+
+							<!-- Course Name (fixed height) -->
+							<div style="height: 3rem; overflow: hidden;">
+								<h5 class="card-title mb-1" style="font-size: 1.1rem;"
+									th:text="${purchasedCourse.name}"></h5>
+							</div>
+
+							<!-- Description (2 lines) -->
+							<div class="mb-3"
+								style="height: 3em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+								<p class="card-text mb-3">
+									<span th:text="${purchasedCourse.description}"></span>
+									<span style="color: #0d6efd;">...more</span>
+								</p>
+							</div>
+
+							<!-- Buy/Login Button (auto-aligned to bottom using margin-top auto) -->
+							<div class="mt-auto">
+								<a href="login" class="btn btn-outline-success btn-sm w-100">Start Course</a>
+							</div>
+						</div>
+
+						<!-- Footer -->
+						<div class="card-footer text-body-secondary">
+							Updated: <span th:text="${purchasedCourse.updatedOn}"></span>
+						</div>
+
+						<div class="card-footer text-body-secondary">
+							<small>Purchased on: <br><strong><span
+										th:text="${purchasedCourse.purchasedOn}"></span></strong></small>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ------------------courses div ends here------------- -->
+		</section>
+	</main>
+	<!-- main content ends -->
+
+	<!-- footer starts -->
+	<div th:replace="~{fragments/footer :: crm-footer}"></div>
+	<!-- footer ends -->
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

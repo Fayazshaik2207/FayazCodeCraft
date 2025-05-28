@@ -1,0 +1,29 @@
+body {
+	    display: flex;
+	}
+
+	.sidebar {
+	    width: 250px;
+	    height: 100vh;
+	    position: fixed;
+	    background-color: #343a40;
+	    padding-top: 20px;
+	}
+
+	.sidebar .nav-link {
+	    color: white;
+	}
+
+	.sidebar .nav-link:hover {
+	    background-color: #495057;
+	}
+
+	.sidebar .nav-item:not(:last-child) {
+	    border-bottom: 1px solid #495057;
+	}
+
+	.content {
+	    margin-left: 250px;
+	    padding: 20px;
+	    width: 100%;
+	}
