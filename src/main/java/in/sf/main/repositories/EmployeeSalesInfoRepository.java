@@ -14,8 +14,13 @@ public interface EmployeeSalesInfoRepository extends JpaRepository<EmployeeOrder
 	@Query(value = sql_query1,nativeQuery = true)
 	String findTotalSalesByAllEmployees();
 	
-	String sql_query2 = "select e.name as employee_name,e.email as employee_email,e.phoneno as employee_phoneno,sum(o.course_amount) as total_sales from employee e join employee_orders eo on e.email = eo.employee_email join orders o on eo.order_id = o.order_id group by e.name,e.email,e.phoneno;";
-	@Query(value = sql_query2,nativeQuery = true)
+	String sql_query = "select e.name as employee_name, e.email as employee_email, e.phoneno as employee_phoneno, " +
+                   "sum(o.course_amount::numeric) as total_sales " +
+                   "from employee e " +
+                   "join employee_orders eo on e.email = eo.employee_email " +
+                   "join orders o on eo.order_id = o.order_id " +
+                   "group by e.name, e.email, e.phoneno;";
+@Query(value = sql_query2,nativeQuery = true)
 	List<Object[]> findTotalSalesByEachEmployees();
 	
 }
