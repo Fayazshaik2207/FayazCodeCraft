@@ -14,7 +14,7 @@ public interface EmployeeSalesInfoRepository extends JpaRepository<EmployeeOrder
 	@Query(value = sql_query1,nativeQuery = true)
 	String findTotalSalesByAllEmployees();
 	
-	String sql_query = "select e.name as employee_name, e.email as employee_email, e.phoneno as employee_phoneno, " +
+	String sql_query2 = "select e.name as employee_name, e.email as employee_email, e.phoneno as employee_phoneno, " +
                    "sum(o.course_amount::numeric) as total_sales " +
                    "from employee e " +
                    "join employee_orders eo on e.email = eo.employee_email " +
