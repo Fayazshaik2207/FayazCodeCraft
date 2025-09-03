@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import in.sf.main.services.OrdersChartService;
 
 @Controller
-public class OrdersChartController {
+public class ordersChartController {
 
     @Autowired
     private OrdersChartService orderChartService;
