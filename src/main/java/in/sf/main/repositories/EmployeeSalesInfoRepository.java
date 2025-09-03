@@ -10,7 +10,7 @@ import in.sf.main.entities.EmployeeOrders;
 @Repository
 public interface EmployeeSalesInfoRepository extends JpaRepository<EmployeeOrders,Long>{
 	
-	String sql_query1 = "select sum(course_amount) as total_sales_amount from orders where order_id not like 'order_%';";
+	String sql_query1 = "select sum(course_amount::numeric) as total_sales_amount from orders where order_id not like 'order_%';";
 	@Query(value = sql_query1,nativeQuery = true)
 	String findTotalSalesByAllEmployees();
 	
