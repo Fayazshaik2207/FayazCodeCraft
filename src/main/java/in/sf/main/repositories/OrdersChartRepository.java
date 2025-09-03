@@ -10,7 +10,11 @@ import in.sf.main.entities.Orders;
 
 @Repository
 public interface OrdersChartRepository extends JpaRepository<Orders,Long> {
-	String sql_query1 = "select substring_index(date_of_purchase,',',1) as purchased_date, count(*) as number_of_courses from orders group by purchased_date order by purchased_date;";
+	String sql_query1 = "select split_part(date_of_purchase, ',', 1) as purchased_date, " +
+                    "count(*) as number_of_courses " +
+                    "from orders " +
+                    "group by purchased_date " +
+                    "order by purchased_date;";
 	@Query(value = sql_query1, nativeQuery = true)
 	List<Object[]> findCoursesSoldPerDay();
 	
