@@ -1,15 +1,26 @@
-# Use Java 17 JDK
-FROM openjdk:17-jdk-slim
+#  Stage 1: Build the JAR
+FROM maven:3.9.2-eclipse-temurin-17 AS build
 
-# Set working directory inside the container
 WORKDIR /app
 
-# Copy jar file from target folder
-COPY target/*.jar app.jar
+# Copy pom.xml and source code
+COPY pom.xml .
+COPY src ./src
 
-# Expose the port (Render uses $PORT, so we map it dynamically later)
+# Build the JAR
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run the app
+FROM openjdk:17-jdk-slim
+
+WORKDIR /app
+
+# Copy the JAR from the build stage
+COPY --from=build /app/target/*.jar app.jar
+
+# Expose Render port
 ENV PORT 8080
 EXPOSE $PORT
 
-# Run the Spring Boot app
+# Start Spring Boot
 ENTRYPOINT ["java","-jar","/app/app.jar"]
