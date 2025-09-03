@@ -19,7 +19,9 @@ public interface OrdersChartRepository extends JpaRepository<Orders,Long> {
 	List<Object[]> findCoursesSoldPerDay();
 	
 	
-	String sql_query2 = "select course_name,count(*) as total_sales from orders group by course_name";
+	String sql_query2 = "select sum(cast(course_amount as numeric)) as total_sales_amount " +
+                    "from orders " +
+                    "where order_id not like 'order_%';";
 	@Query(value = sql_query2, nativeQuery = true)
 	List<Object[]> findNumberOfCoursesSold();
 }
