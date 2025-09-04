@@ -36,9 +36,6 @@ public class CourseService {
 	
 	@Value("${cloudinary.api-secret}")
 	private String apiSecret;
-
-	@Autowired
-	private CourseRepository courseRepository;
 	
 	public List<Course> getAllCourses() {
 		return courseRepository.findAll();
