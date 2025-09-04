@@ -19,24 +19,24 @@ import in.sf.main.repositories.CourseRepository;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
-@Autowired
-private CourseRepository courseRepository;
-
-@Value("${cloudinary.cloud-name}")
-private String cloudName;
-
-@Value("${cloudinary.api-key}")
-private String apiKey;
-
-@Value("${cloudinary.api-secret}")
-private String apiSecret;
-
 @Service
 public class CourseService {
 
 	// private String uploadDir = "src/main/resources/static/uploads/" ;
 	// private String imageUrl = "http://localhost:8080/uploads/";
 	
+	@Autowired
+	private CourseRepository courseRepository;
+	
+	@Value("${cloudinary.cloud-name}")
+	private String cloudName;
+	
+	@Value("${cloudinary.api-key}")
+	private String apiKey;
+	
+	@Value("${cloudinary.api-secret}")
+	private String apiSecret;
+
 	@Autowired
 	private CourseRepository courseRepository;
 	
