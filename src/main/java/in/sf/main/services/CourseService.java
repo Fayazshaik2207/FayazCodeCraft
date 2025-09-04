@@ -6,12 +6,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
 
 import in.sf.main.entities.Course;
 import in.sf.main.repositories.CourseRepository;
@@ -71,9 +74,26 @@ public class CourseService {
     courseRepository.save(course);
 }
 	
-	public void updateCourseDetails(Course course) {
-		courseRepository.save(course);
-	}
+	public void updateCourseDetails(Course course, MultipartFile courseImg) throws IOException {
+    // Initialize Cloudinary
+    Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+            "cloud_name", cloudName,
+            "api_key", apiKey,
+            "api_secret", apiSecret
+    ));
+
+    if (courseImg != null && !courseImg.isEmpty()) {
+        Map uploadResult = cloudinary.uploader().upload(
+                courseImg.getBytes(),
+                ObjectUtils.asMap("resource_type", "auto")
+        );
+        String imgUrl = uploadResult.get("secure_url").toString();
+        course.setImageUrl(imgUrl);
+    }
+
+    courseRepository.save(course);
+}
+
 	
 	public void deleteCourseDetails(String courseName) {
 		Course course =  courseRepository.findByName(courseName);
