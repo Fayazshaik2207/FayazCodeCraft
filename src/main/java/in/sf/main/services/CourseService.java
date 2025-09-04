@@ -16,11 +16,26 @@ import org.springframework.web.multipart.MultipartFile;
 import in.sf.main.entities.Course;
 import in.sf.main.repositories.CourseRepository;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+
+@Autowired
+private CourseRepository courseRepository;
+
+@Value("${cloudinary.cloud-name}")
+private String cloudName;
+
+@Value("${cloudinary.api-key}")
+private String apiKey;
+
+@Value("${cloudinary.api-secret}")
+private String apiSecret;
+
 @Service
 public class CourseService {
 
-	private String uploadDir = "src/main/resources/static/uploads/" ;
-	private String imageUrl = "http://localhost:8080/uploads/";
+	// private String uploadDir = "src/main/resources/static/uploads/" ;
+	// private String imageUrl = "http://localhost:8080/uploads/";
 	
 	@Autowired
 	private CourseRepository courseRepository;
@@ -37,17 +52,27 @@ public class CourseService {
 		return courseRepository.findByName(courseName);
 	}
 	
-	public void addCourse(Course course,MultipartFile courseImg) throws IOException {
-		
-		String imgName = courseImg.getOriginalFilename();
-		Path imgPath = Paths.get(uploadDir+imgName);
-		Files.write(imgPath,courseImg.getBytes());
-		
-		String imgUrl = imageUrl+imgName;
-		course.setImageUrl(imgUrl);
-		
-		courseRepository.save(course);
-	}
+	public void addCourse(Course course, MultipartFile courseImg) throws IOException {
+    // Initialize Cloudinary with credentials
+    Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+            "cloud_name", cloudName,
+            "api_key", apiKey,
+            "api_secret", apiSecret
+    ));
+
+    // Upload file to Cloudinary
+    Map uploadResult = cloudinary.uploader().upload(
+            courseImg.getBytes(),
+            ObjectUtils.asMap("resource_type", "auto")
+    );
+
+    // Get secure URL
+    String imgUrl = uploadResult.get("secure_url").toString();
+
+    // Save course with Cloudinary image URL
+    course.setImageUrl(imgUrl);
+    courseRepository.save(course);
+}
 	
 	public void updateCourseDetails(Course course) {
 		courseRepository.save(course);
