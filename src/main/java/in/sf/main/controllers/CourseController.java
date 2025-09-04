@@ -84,32 +84,23 @@ public class CourseController {
 	}
 	
 	@PostMapping("/updateCourseDetailsForm")
-	public String openUpdateCourseDetailsPage(@ModelAttribute("newCourseObj") Course newCourseObj,@RequestParam("courseImg") MultipartFile courseImg, RedirectAttributes redirectAttributes) throws IOException {
-		
-		Course oldCourseObj = courseService.getCourseDetails(newCourseObj.getName());
-		newCourseObj.setId(oldCourseObj.getId());
-		try {
-			if(!courseImg.isEmpty()) {
-				String imgName = courseImg.getOriginalFilename();
-				Path imgPath = Paths.get(uploadDir+imgName);
-				Files.write(imgPath,courseImg.getBytes());
-				
-				String imgUrl = imageUrl+imgName;
-				newCourseObj.setImageUrl(imgUrl);
-			}
-			else {
-				newCourseObj.setImageUrl(oldCourseObj.getImageUrl());
-			}
-			courseService.updateCourseDetails(newCourseObj);
-			redirectAttributes.addFlashAttribute("SuccessMsg","Course details updated Successfully!!!");
-		}
-		catch(Exception e) {
-			redirectAttributes.addFlashAttribute("ErrorMsg","Course details not updated due to some Error!!!");
-			e.printStackTrace();
-		}
-		
-		return "redirect:/courseManagement";
-	}
+public String openUpdateCourseDetailsPage(
+        @ModelAttribute("newCourseObj") Course newCourseObj,
+        @RequestParam("courseImg") MultipartFile courseImg,
+        RedirectAttributes redirectAttributes) throws IOException {
+
+    try {
+        // Pass both newCourseObj and courseImg to service
+        courseService.updateCourseDetails(newCourseObj, courseImg);
+        redirectAttributes.addFlashAttribute("SuccessMsg", "Course details updated Successfully!!!");
+    } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("ErrorMsg", "Course details not updated due to some Error!!!");
+        e.printStackTrace();
+    }
+
+    return "redirect:/courseManagement";
+}
+
 //	------------------edit course ends ----------------------
 	
 	
