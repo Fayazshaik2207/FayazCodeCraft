@@ -24,8 +24,8 @@ import in.sf.main.services.CourseService;
 @Controller
 public class CourseController {
 
-	private String uploadDir = "src/main/resources/static/uploads/" ;
-	private String imageUrl = "http://localhost:8080/uploads/";
+	// private String uploadDir = "src/main/resources/static/uploads/" ;
+	// private String imageUrl = "http://localhost:8080/uploads/";
 	
 	@Autowired
 	private CourseService courseService;
